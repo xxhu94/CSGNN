@@ -11,7 +11,7 @@ from sklearn.utils import check_random_state, check_array
 
 
 """
-	Utility functions to handle early stopping and mixed droupout and mixed liner.
+	Utility functions 
 """
 
 class EarlyStopping:
@@ -228,22 +228,6 @@ def calculate_covariance_matrix(X, Y=None):
 
     return np.array(covariance_matrix, dtype=float)
 
-def standardize(X):
-    """ Standardize the dataset X """
-    X_std = X
-    mean = X.mean(axis=0)
-    std = X.std(axis=0)
-    for col in range(np.shape(X)[1]):
-        if std[col]:
-            X_std[:, col] = (X_std[:, col] - mean[col]) / std[col]
-    # X_std = (X - X.mean(axis=0)) / X.std(axis=0)
-    return
-
-def normalize(X, axis=-1, order=2):
-    """ Normalize the dataset X """
-    l2 = np.atleast_1d(np.linalg.norm(X, order, axis))
-    l2[l2 == 0] = 1
-    return X / np.expand_dims(l2, axis)
 
 
 def calculate_S(X, y):

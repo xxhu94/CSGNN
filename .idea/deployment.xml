@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="root@192.168.210.122:30031 password (2)">
+  <component name="PublishConfigData" autoUpload="Always" serverName="CSGNN">
     <serverData>
       <paths name="AdaGCN">
         <serverdata>
@@ -13,6 +13,13 @@
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="CSGNN">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/code/CSGNN" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
@@ -54,7 +61,7 @@
       <paths name="root@192.168.210.122:30031 password (2)">
         <serverdata>
           <mappings>
-            <mapping deploy="/code/b" local="$PROJECT_DIR$" />
+            <mapping local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
