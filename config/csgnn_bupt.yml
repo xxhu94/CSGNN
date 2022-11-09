@@ -1,0 +1,20 @@
+#hyper parameters for BUPT
+IR: 0.1
+IR_set: 0
+blank: 0
+cost_weight: 1000
+dataset: 'BUPT'
+early_stop: False
+gpu: 0
+hid_dim: 64
+lr_Cost: 0.01
+lr_GNN: 0.01
+max_epoch: 1
+num_layers: 5
+patience: 200
+sim_weight: 2
+step_size: 0.02
+train_size: 0.2
+val_size: 0.2
+weight_decay_Cost: 0.001
+weight_decay_GNN: 0.001

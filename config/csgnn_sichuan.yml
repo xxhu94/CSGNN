@@ -1,0 +1,21 @@
+#hyper parameters for Sichuan
+IR: 0.1
+IR_set: 0
+blank: 0
+cost_weight: 1000
+dataset: 'Sichuan'
+early_stop: False
+gpu: 0
+hid_dim: 256
+lr_Cost: 0.01
+lr_GNN: 0.01
+max_epoch: 15
+num_layers: 3
+patience: 200
+sim_weight: 2
+step_size: 0.02
+train_size: 0.2
+val_size: 0.2
+weight_decay_Cost: 0.001
+weight_decay_GNN: 0.001
+
