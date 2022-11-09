@@ -1,7 +1,6 @@
 import torch
 import time
 import dgl.function as fn
-from utils import MixedDropout, MixedLinear
 import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
@@ -12,9 +11,9 @@ import math
 from utils import _set_cost_matrix,_validate_cost_matrix
 
 
-class GraSen(nn.Module):
+class CSGNN_layer(nn.Module):
     def __init__(self, in_dim, out_dim, num_classes, edges, activation=None, step_size=0.02):
-        super(GraSen, self).__init__()
+        super(CSGNN_layer, self).__init__()
 
         self.activation = activation
         self.step_size = step_size
@@ -83,7 +82,7 @@ class GraSen(nn.Module):
             return self.linear(h_homo)
 
 
-class SENGNN(nn.Module):
+class CSGNN(nn.Module):
     def __init__(self,
                  in_dim,
                  num_classes,
@@ -92,7 +91,7 @@ class SENGNN(nn.Module):
                  num_layers=2,
                  activation=None,
                  step_size=0.02):
-        super(SENGNN, self).__init__()
+        super(CSGNN, self).__init__()
         self.in_dim = in_dim
         self.hid_dim = hid_dim
         self.num_classes = num_classes
@@ -105,7 +104,7 @@ class SENGNN(nn.Module):
 
         if self.num_layers == 1:
             # Single layer
-            self.layers.append(GraSen(self.in_dim,
+            self.layers.append(CSGNN_layer(self.in_dim,
                                         self.num_classes,
                                         self.num_classes,
                                         self.edges,
@@ -114,7 +113,7 @@ class SENGNN(nn.Module):
 
         else:
             # Input layer
-            self.layers.append(GraSen(self.in_dim,
+            self.layers.append(CSGNN_layer(self.in_dim,
                                         self.hid_dim,
                                         self.num_classes,
                                         self.edges,
@@ -123,7 +122,7 @@ class SENGNN(nn.Module):
 
             # Hidden layers with n - 2 layers
             for i in range(self.num_layers - 2):
-                self.layers.append(GraSen(self.hid_dim,
+                self.layers.append(CSGNN_layer(self.hid_dim,
                                             self.hid_dim,
                                             self.num_classes,
                                             self.edges,
@@ -131,7 +130,7 @@ class SENGNN(nn.Module):
                                             step_size=self.step_size))
 
             # Output layer
-            self.layers.append(GraSen(self.hid_dim,
+            self.layers.append(CSGNN_layer(self.hid_dim,
                                         self.num_classes,
                                         self.num_classes,
                                         self.edges,

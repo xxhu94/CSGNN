@@ -1,6 +1,7 @@
-from model import SENGNN,CostMatrix
+from model import CSGNN,CostMatrix
 import torch
 import dgl
+import yaml
 import argparse
 import random, os, sys
 import numpy as np
@@ -29,6 +30,17 @@ logging.basicConfig(
     # filemode='a'
     )
 
+def get_config(config_path="./config/pcgnn_amazon.yml"):
+    with open(config_path, "r") as setting:
+        config = yaml.load(setting, Loader=yaml.FullLoader)
+    return config
+
+def get_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--config', type=str, default="/code/CSGNN/config/csgnn_sichuan.yml", help='path to the config file')
+    # parser.add_argument('--config', type=str, default="/code/CSGNN/config/csgnn_bupt.yml", help='path to the config file')
+    args = vars(parser.parse_args())
+    return args
 
 def setup_seed(seed):
     random.seed(seed)
@@ -95,16 +107,16 @@ def gen_mask(g, train_rate, val_rate, IR, IR_set):
 
 def load_data(args):
     if args.dataset == 'BUPT':
-        dataset, _ = load_graphs("/code/AdaGAT-Dgl/data/BUPT_tele.bin")  # glist will be [g1]
-        num_classes = load_info("/code/AdaGAT-Dgl/data/BUPT_tele.pkl")['num_classes']
+        dataset, _ = load_graphs("/code/CSGNN/data/BUPT_tele.bin")  # glist will be [g1]
+        num_classes = load_info("/code/CSGNN/data/BUPT_tele.pkl")['num_classes']
         # {0: 99861, 1: 8448, 2: 8074}
         graph,_ = gen_mask(dataset[0], args.train_size, args.val_size, args.IR, args.IR_set)
         feat = graph.ndata['feat'].float().to(device)
 
     # 引入Sichuan数据集
     elif args.dataset == 'Sichuan':
-        dataset, _ = load_graphs("/code/AdaGAT-Dgl/data/Sichuan_tele.bin")  # glist will be [g1]
-        num_classes = load_info("/code/AdaGAT-Dgl/data/Sichuan_tele.pkl")['num_classes']
+        dataset, _ = load_graphs("/code/CSGNN/data/Sichuan_tele.bin")  # glist will be [g1]
+        num_classes = load_info("/code/CSGNN/data/Sichuan_tele.pkl")['num_classes']
         # {0: 4144, 1: 1962}
         graph,_ = gen_mask(dataset[0], args.train_size, args.val_size, args.IR, args.IR_set)
         feat = graph.ndata['feat'].float().to(device)
@@ -143,7 +155,7 @@ def main(args):
     rl_idx = torch.nonzero(train_mask.to(device) & labels.bool(), as_tuple=False).squeeze(1).int()
 
     # creat model
-    model = SENGNN(in_dim=feat.shape[-1],
+    model = CSGNN(in_dim=feat.shape[-1],
                    num_classes=num_classes,
                    hid_dim=args.hid_dim,
                    num_layers=args.num_layers,
@@ -272,32 +284,10 @@ def main(args):
 
 
 if __name__ == '__main__':
-    # hyper parameters
-    parser = argparse.ArgumentParser(description='GCN-based Anti-Spam Model')
-    parser.add_argument("--dataset", type=str, default="Sichuan",
-                        help="DGL dataset for this model (Sichuan,BUPT)")
-    parser.add_argument("--gpu", type=int, default=0, help="GPU index,0:GPU,1:CPU. Default: -1, using CPU.")
-    parser.add_argument("--hid_dim", type=int, default=64, help="Hidden layer dimension")
-    parser.add_argument("--num_layers", type=int, default=2, help="Number of layers")
-    parser.add_argument("--max_epoch", type=int, default=15, help="The max number of epochs. Default: 30")
-    parser.add_argument('--patience', type=int, default=200, help='patience in early stopping')
-    parser.add_argument('--lr_GNN', type=float, default=0.02, help='Initial learning rate for GNN.')
-    parser.add_argument('--lr_Cost', type=float, default=0.01, help='Initial learning rate for Cost matrix.')
-    parser.add_argument('--weight_decay_GNN', type=float, default=1e-3,
-                        help='Weight decay for optimizer(all layers) GNN.')
-    parser.add_argument('--weight_decay_Cost', type=float, default=1e-3,
-                        help='Weight decay for optimizer(all layers) Cost matrix.')
-    parser.add_argument("--step_size", type=float, default=0.02, help="RL action step size (lambda 2). Default: 0.02")
-    parser.add_argument("--sim_weight", type=float, default=2, help="Similarity loss weight (lambda 1). Default: 2")
-    parser.add_argument('--early-stop', action='store_true', default=False, help="indicates whether to use early stop")
-    parser.add_argument("--cost_weight", type=float, default=1000, help="Cost matrix weight . Default: 2")
-    parser.add_argument('--train_size', type=float, default=0.2, help='train size.')
-    parser.add_argument('--val_size', type=float, default=0.2, help='val size.')
-    parser.add_argument('--IR', type=float, default=0.1, help='imbalanced ratio.')
-    parser.add_argument('--IR_set', type=int, default=0, help='whether to set imbalanced ratio,1 for set ,0 for not.')
-    parser.add_argument('--blank', type=int, default=0, help='use during find best hyperparameter.')
 
-    args = parser.parse_args()
+    cfg = get_args()
+    config = get_config(cfg['config'])
+    args = argparse.Namespace(**config)
     print(args)
     if args.gpu >= 0 and torch.cuda.is_available():
         device = 'cuda:{}'.format(args.gpu)
