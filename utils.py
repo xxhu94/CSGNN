@@ -9,7 +9,6 @@ from collections import Counter
 from sklearn.utils import check_random_state, check_array
 
 
-
 """
 	Utility functions 
 """

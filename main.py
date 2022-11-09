@@ -30,7 +30,7 @@ logging.basicConfig(
     # filemode='a'
     )
 
-def get_config(config_path="./config/pcgnn_amazon.yml"):
+def get_config(config_path="./config/csgnn_amazon.yml"):
     with open(config_path, "r") as setting:
         config = yaml.load(setting, Loader=yaml.FullLoader)
     return config

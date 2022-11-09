@@ -7,9 +7,8 @@ A PyTorch implementation for the paper below:
 To run the code, you need to have at least Python 3.7 or later versions.  
 1.In CSGNN/data directory，run`unzip BUPT.zip` and `unzip Sichuan.zip` to unzip the datasets;  
 2.Run `python data_process.py` to generate Sichuan and BUPT dataset in DGL;  
-3.-Run `python main.py --config ./config/csgnn_sichuan.yml` to run CSGNN with default settings on Sihcuan dataset.  
+3.-Run `python main.py --config ./config/csgnn_sichuan.yml` to run CSGNN with default settings on Sihcuan dataset;  
 -Run `python main.py --config ./config/csgnn_bupt.yml` to run CSGNN with default settings on BUPT dataset.   
-
 
 ## Repo Structure
 The repository is organized as follows:

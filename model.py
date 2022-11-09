@@ -6,7 +6,6 @@ import torch.nn.functional as F
 import numpy as np
 import pandas as pd
 from numpy import random
-import dgl, os
 import math
 from utils import _set_cost_matrix,_validate_cost_matrix
 
