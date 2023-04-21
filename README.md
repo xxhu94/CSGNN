@@ -17,6 +17,15 @@ The repository is organized as follows:
 - `model.py`: CSGNN model implementations;
 - `utils.py`: utility functions.  
 
+## Citation
 
+```
+@article{hu2023cost,
+  title={Cost Sensitive GNN-based Imbalanced Learning for Mobile Social Network Fraud Detection},
+  author={Hu, Xinxin and Chen, Haotian and Chen, Hongchang and Liu, Shuxin and Li, Xing and Zhang, Shibo and Wang, Yahui and Xue, Xiangyang},
+  journal={arXiv preprint arXiv:2303.17486},
+  year={2023}
+}
+```
 
   
