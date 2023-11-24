@@ -23,8 +23,9 @@ The repository is organized as follows:
 @article{hu2023cost,
   title={Cost Sensitive GNN-based Imbalanced Learning for Mobile Social Network Fraud Detection},
   author={Hu, Xinxin and Chen, Haotian and Chen, Hongchang and Liu, Shuxin and Li, Xing and Zhang, Shibo and Wang, Yahui and Xue, Xiangyang},
-  journal={arXiv preprint arXiv:2303.17486},
+  journal={IEEE Transactions on Computational Social Systems },
   year={2023}
+  doi={10.1109/TCSS.2023.3302651}
 }
 ```
 
